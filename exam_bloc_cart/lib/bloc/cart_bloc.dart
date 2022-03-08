@@ -7,18 +7,14 @@ part 'cart_event.dart';
 part 'cart_state.dart';
 
 class CartBloc extends Bloc<CartEvent, CartState> {
-  CartBloc() : super(CartState()) {
+  CartBloc() : super(ListPresented([])) {
+    // UI 에 응답하는 부분으로 try catch로 에러 처리 해야 함.
     on<CartAdd>((event, emit) {
-      state.carts.add(event.cart);
-      print(state.carts);
-      return emit(state.copyWith(carts: state.carts));
+      carts.add(event.cart);
+      emit(CartAdded(carts));
+      emit(ListPresented(carts));
     });
-    on<CartDelete>((event, emit) {});
   }
 
   List<Cart> carts = [];
-
-  void addToCart(Cart cart) {
-    carts.add(cart);
-  }
 }
