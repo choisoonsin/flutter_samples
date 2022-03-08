@@ -74,6 +74,8 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   void _onClickAddButton({required String itemName}) =>
       {context.read<CartBloc>().add(CartAdd(Cart(itemName)))};
+  void _onClickDeleteButton({required String itemName}) =>
+      {context.read<CartBloc>().add(CartDelete(Cart(itemName)))};
 
   List<String> items = [
     'Snack1',
@@ -81,7 +83,9 @@ class _HomeState extends State<Home> {
     'Snack3',
     'Snack4',
     'Snack5',
-    'Snack6'
+    'Snack6',
+    'Snack7',
+    'Snack8',
   ];
 
   @override
@@ -89,22 +93,7 @@ class _HomeState extends State<Home> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Cart'),
-        actions: [
-          Icon(Icons.shopping_cart_outlined),
-          BlocBuilder<CartBloc, CartState>(
-            bloc: context.read<CartBloc>(),
-            buildWhen: (previous, current) {
-              return previous.props != current.props;
-            },
-            builder: (context, state) {
-              if (state is ListPresented) {
-                return Text(state.carts.length.toString());
-              } else {
-                return Text('');
-              }
-            },
-          )
-        ],
+        actions: [_CartIcon()],
       ),
       body: ListView.builder(
         itemCount: items.length,
@@ -116,15 +105,56 @@ class _HomeState extends State<Home> {
             child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(items[index]),
+                  Expanded(child: Text(items[index])),
                   ElevatedButton(
                       onPressed: () =>
                           _onClickAddButton(itemName: items[index]),
                       child: Text('ADD')),
+                  SizedBox(
+                    width: 3,
+                  ),
+                  ElevatedButton(
+                      onPressed: () =>
+                          _onClickDeleteButton(itemName: items[index]),
+                      child: Text('DELETE')),
                 ]),
           );
         },
       ),
     );
   }
+}
+
+Widget _CartIcon() {
+  return Container(
+    padding: EdgeInsets.only(right: 10),
+    width: 50,
+    child: Stack(
+      children: [
+        Center(
+            child: Icon(
+          Icons.shopping_cart_outlined,
+          size: 30,
+        )),
+        Positioned(
+            right: 1,
+            top: 5,
+            child: Container(
+              width: 20,
+              height: 20,
+              decoration:
+                  BoxDecoration(shape: BoxShape.circle, color: Colors.red),
+              child: BlocBuilder<CartBloc, CartState>(
+                builder: (context, state) {
+                  if (state is CartState) {
+                    return Center(child: Text(state.carts.length.toString()));
+                  } else {
+                    return Container();
+                  }
+                },
+              ),
+            ))
+      ],
+    ),
+  );
 }

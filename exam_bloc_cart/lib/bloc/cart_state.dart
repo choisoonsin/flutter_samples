@@ -1,33 +1,13 @@
 part of 'cart_bloc.dart';
 
-abstract class CartState extends Equatable {}
-
-class ListPresented extends CartState {
-  ListPresented(this.carts) : super();
+class CartState extends Equatable {
+  const CartState({this.carts = const <Cart>[]}) : super();
 
   final List<Cart> carts;
 
-  ListPresented copyWith({List<Cart>? carts}) {
-    return ListPresented(carts ?? this.carts);
+  CartState copyWith({List<Cart>? carts}) {
+    return CartState(carts: carts ?? this.carts);
   }
-
-  @override
-  List<Object> get props => [carts];
-}
-
-class CartAdded extends CartState {
-  CartAdded(this.carts) : super();
-
-  final List<Cart> carts;
-
-  @override
-  List<Object> get props => [carts];
-}
-
-class CartDeleted extends CartState {
-  CartDeleted(this.carts) : super();
-
-  final List<Cart> carts;
 
   @override
   List<Object> get props => [carts];
