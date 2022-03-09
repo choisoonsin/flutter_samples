@@ -9,9 +9,10 @@ part 'cart_state.dart';
 class CartBloc extends Bloc<CartEvent, CartState> {
   CartBloc() : super(CartState()) {
     on<CartAdd>((event, emit) {
-      state.carts.add(event.cart);
-      print(state.carts);
-      return emit(state.copyWith(carts: state.carts));
+      // state.carts.add(event.cart);
+      addToCart(event.cart);
+      // print(state.carts);
+      emit(state.copyWith(carts: carts));
     });
     on<CartDelete>((event, emit) {});
   }
