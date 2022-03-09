@@ -1,7 +1,7 @@
 part of 'cart_bloc.dart';
 
 class CartState extends Equatable {
-  const CartState({this.carts = const <Cart>[]});
+  const CartState({this.carts = const <Cart>[]}) : super();
 
   final List<Cart> carts;
 
@@ -10,5 +10,5 @@ class CartState extends Equatable {
   }
 
   @override
-  List<Cart> get props => carts;
+  List<Object> get props => [carts];
 }

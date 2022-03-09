@@ -7,19 +7,17 @@ part 'cart_event.dart';
 part 'cart_state.dart';
 
 class CartBloc extends Bloc<CartEvent, CartState> {
-  CartBloc() : super(CartState()) {
+  CartBloc() : super(const CartState()) {
     on<CartAdd>((event, emit) {
-      // state.carts.add(event.cart);
-      addToCart(event.cart);
-      // print(state.carts);
-      emit(state.copyWith(carts: carts));
+      emit(state.copyWith(carts: List.of(state.carts)..addAll([event.cart])));
     });
-    on<CartDelete>((event, emit) {});
-  }
 
-  List<Cart> carts = [];
+    on<CartDelete>((event, emit) {
+      var _carts = List.of(state.carts);
+      var _idx = _carts.indexWhere((e) => e.name == event.cart.name);
+      if (_idx != -1) _carts.removeAt(_idx);
 
-  void addToCart(Cart cart) {
-    carts.add(cart);
+      emit(state.copyWith(carts: _carts));
+    });
   }
 }
