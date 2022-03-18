@@ -16,12 +16,13 @@ class FakePostApi {
   }
 
   Future<List<Post>> fetchAllPosts() async {
+    await Future.delayed(const Duration(seconds: 1));
+
     var reqUri = Uri.https(baseUri, '/posts');
 
-    return await http
-        .get(reqUri)
-        .then((res) => success(res: res))
-        .onError((error, stackTrace) => throw Exception('error fetchAllPosts'));
+    return await http.get(reqUri).then((res) => success(res: res)).onError(
+        (error, stackTrace) =>
+            throw Exception('error fetchAllPosts ${error.toString()}'));
   }
 
   Future<List<Post>> fetchPosts({int? start = 0, int? limit = 10}) async {
