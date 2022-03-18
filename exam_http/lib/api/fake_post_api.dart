@@ -5,18 +5,6 @@ import 'package:http/http.dart' as http;
 class FakePostApi {
   static const String baseUri = 'jsonplaceholder.typicode.com';
 
-  Future<List<dynamic>> fetchAllPosts4Dynamic() async {
-    var reqUri = Uri.https(baseUri, '/posts');
-
-    return await http.get(reqUri).then((res) {
-      if (res.statusCode == 200) {
-        return convert.jsonDecode(res.body) as List<dynamic>;
-      } else {
-        return [];
-      }
-    }).onError((error, stackTrace) => throw Exception(error.toString()));
-  }
-
   List<Post> success({required http.Response res}) {
     if (res.statusCode == 200) {
       return (convert.jsonDecode(res.body) as List<dynamic>)
@@ -30,8 +18,10 @@ class FakePostApi {
   Future<List<Post>> fetchAllPosts() async {
     var reqUri = Uri.https(baseUri, '/posts');
 
-    return await http.get(reqUri).then((res) => success(res: res)).onError(
-        (error, stackTrace) => throw Exception('error fetchAllPosts4Dynamic'));
+    return await http
+        .get(reqUri)
+        .then((res) => success(res: res))
+        .onError((error, stackTrace) => throw Exception('error fetchAllPosts'));
   }
 
   Future<List<Post>> fetchPosts({int? start = 0, int? limit = 10}) async {

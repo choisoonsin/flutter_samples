@@ -1,0 +1,7 @@
+{
+  "lcov.path": "./coverage/lcov.info",
+  "lcov.watch": [{
+      "pattern": "**/*.dart",
+      "command": "flutter test --coverage"
+  }]
+}
