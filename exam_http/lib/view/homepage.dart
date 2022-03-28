@@ -12,6 +12,14 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  late Future<List<Post>> _allPosts;
+
+  @override
+  void initState() {
+    super.initState();
+    _allPosts = widget.fakePostApi.fetchAllPosts();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,35 +33,40 @@ class _HomePageState extends State<HomePage> {
 
   Widget _FetchAllPosts(context) {
     return FutureBuilder(
-        future: widget.fakePostApi.fetchAllPosts(),
+        future: _allPosts,
         builder: ((context, snapshot) {
-          if (snapshot.hasError) {
-            return Center(
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.connectionState == ConnectionState.done) {
+            if (snapshot.hasError) {
+              return Center(
+                child: Text(snapshot.error.toString()),
+              );
+            } else {
+              // hasData
+              List<Post> _posts = snapshot.data as List<Post>;
+              return ListView.separated(
+                  itemCount: _posts.length,
+                  itemBuilder: ((context, index) {
+                    Post _post = _posts[index];
+                    return ListTile(
+                      title: Text(
+                        _post.title,
+                        maxLines: 1,
+                      ),
+                      contentPadding: const EdgeInsets.fromLTRB(15, 5, 15, 0),
+                      subtitle: Text(_post.body, maxLines: 2),
+                      trailing: _ShowBottomSheet(context, post: _post),
+                    );
+                  }),
+                  separatorBuilder: (context, index) => const Divider(
+                        thickness: 0.3,
+                      ));
+            }
+          } else {
+            return const Center(
               child: Text('No data found'),
             );
-          }
-
-          if (snapshot.hasData) {
-            List<Post> _posts = snapshot.data as List<Post>;
-            return ListView.separated(
-                itemCount: _posts.length,
-                itemBuilder: ((context, index) {
-                  Post _post = _posts[index];
-                  return ListTile(
-                    title: Text(
-                      _post.title,
-                      maxLines: 1,
-                    ),
-                    contentPadding: const EdgeInsets.fromLTRB(15, 5, 15, 0),
-                    subtitle: Text(_post.body, maxLines: 2),
-                    trailing: _ShowBottomSheet(context, post: _post),
-                  );
-                }),
-                separatorBuilder: (context, index) => const Divider(
-                      thickness: 0.3,
-                    ));
-          } else {
-            return const Center(child: CircularProgressIndicator());
           }
         }));
   }
