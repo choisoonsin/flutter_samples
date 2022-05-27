@@ -27,8 +27,7 @@ class _Timer extends StatefulWidget {
 class Ticker {
   const Ticker();
   Stream<int> tick({required int ticks}) {
-    return Stream.periodic(Duration(seconds: 1), (x) => ticks - x - 1)
-        .take(ticks);
+    return Stream.periodic(Duration(seconds: 1), (x) => ticks - x).take(ticks);
   }
 }
 
@@ -72,25 +71,16 @@ class __TimerState extends State<_Timer> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Center(
-            child: Text(_currentTick == null ? '' : _currentTick.toString()),
+          Container(
+            padding: const EdgeInsets.all(10),
+            decoration: const BoxDecoration(
+                color: Colors.black,
+                borderRadius: BorderRadius.all(Radius.circular(15))),
+            child: Text(
+              _currentTick == null ? '' : _currentTick.toString(),
+              style: TextStyle(fontSize: 100, color: Colors.white),
+            ),
           ),
-          // Center(
-          //   child: StreamBuilder(
-          //     stream: subscription,
-          //     builder: (context, snapshot) {
-          //       if (snapshot.hasData) {
-          //         // _setCurrentTime(snapshot.data as int);
-          //         return Text(
-          //           snapshot.data.toString(),
-          //           style: const TextStyle(fontSize: 40),
-          //         );
-          //       } else {
-          //         return const Text('');
-          //       }
-          //     },
-          //   ),
-          // ),
           const SizedBox(
             height: 20,
           ),
