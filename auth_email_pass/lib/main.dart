@@ -1,4 +1,6 @@
 import 'package:auth_email_pass/view/login.dart';
+import 'package:auth_email_pass/view/google_login_screen.dart';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -32,7 +34,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: LoginScreen(),
-    );
+        // home: LoginScreen(),
+        home: GoogleLoginScreen());
   }
 }

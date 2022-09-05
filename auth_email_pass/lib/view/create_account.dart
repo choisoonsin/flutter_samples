@@ -14,15 +14,15 @@ class _CreateAccountState extends State<CreateAccount> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  bool isEmailVerified = false;
+  // bool isEmailVerified = false;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
 
-    isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
-    print('isEmailVerified: $isEmailVerified');
+    // isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
+    // print('isEmailVerified: $isEmailVerified');
   }
 
   @override
