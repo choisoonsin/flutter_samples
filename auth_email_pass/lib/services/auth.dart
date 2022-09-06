@@ -96,19 +96,7 @@ class Authentication {
     FirebaseAuth auth = FirebaseAuth.instance;
     User? user;
 
-    if (kIsWeb) {
-      GoogleAuthProvider authProvider = GoogleAuthProvider();
-
-      try {
-        final UserCredential userCredential =
-            await auth.signInWithPopup(authProvider);
-
-        user = userCredential.user;
-        print(user);
-      } catch (e) {
-        print(e);
-      }
-    }
+    // TODO: You need to eroll a apple developer
 
     return user;
   }

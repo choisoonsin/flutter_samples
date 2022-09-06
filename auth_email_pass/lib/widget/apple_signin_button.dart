@@ -5,14 +5,14 @@ import 'package:auth_email_pass/services/auth.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 
-class GoogleSignInButton extends StatefulWidget {
-  const GoogleSignInButton({Key? key}) : super(key: key);
+class AppleSignInButton extends StatefulWidget {
+  const AppleSignInButton({Key? key}) : super(key: key);
 
   @override
-  State<GoogleSignInButton> createState() => _GoogleSignInButtonState();
+  State<AppleSignInButton> createState() => _AppleSignInButtonState();
 }
 
-class _GoogleSignInButtonState extends State<GoogleSignInButton> {
+class _AppleSignInButtonState extends State<AppleSignInButton> {
   bool _isSigningIn = false;
 
   Widget signInWithgoogleButton() {
@@ -47,7 +47,7 @@ class _GoogleSignInButtonState extends State<GoogleSignInButton> {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: const [
-            Image(image: AssetImage("assets/google_logo.png"), height: 35.0),
+            Image(image: AssetImage("assets/apple_logo.png"), height: 35.0),
             Padding(
               padding: EdgeInsets.only(left: 10),
               child: Text("Sign in with Google"),
