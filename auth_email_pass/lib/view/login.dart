@@ -2,6 +2,7 @@
 import 'package:auth_email_pass/main.dart';
 import 'package:auth_email_pass/services/auth.dart';
 import 'package:flutter/material.dart';
+import 'package:auth_email_pass/widget/google_signin_button.dart';
 
 import 'create_account.dart';
 
@@ -18,10 +19,6 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Login'),
-        centerTitle: true,
-      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -34,7 +31,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
             const SizedBox(
-              height: 30.0,
+              height: 10.0,
             ),
             SizedBox(
               width: MediaQuery.of(context).size.width / 2,
@@ -47,11 +44,11 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
             const SizedBox(
-              height: 30.0,
+              height: 20.0,
             ),
             ElevatedButton(
               onPressed: () async {
-                final message = await AuthService().login(
+                final message = await Authentication.login(
                     email: _emailController.text,
                     password: _passwordController.text);
                 if (message!.contains('Success')) {
@@ -70,7 +67,7 @@ class _LoginScreenState extends State<LoginScreen> {
               child: const Text('Login'),
             ),
             const SizedBox(
-              height: 30.0,
+              height: 10.0,
             ),
             TextButton(
               onPressed: () {
@@ -82,6 +79,26 @@ class _LoginScreenState extends State<LoginScreen> {
               },
               child: const Text('Create Account'),
             ),
+            const Divider(
+              indent: 30,
+              endIndent: 30,
+              height: 30,
+            ),
+            FutureBuilder(
+              future: Authentication.initializeFirebase(context: context),
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return const Text('Error initializing Firebase');
+                } else if (snapshot.connectionState == ConnectionState.done) {
+                  print(snapshot);
+                  return const GoogleSignInButton();
+                  // return Text("google log-in");
+                }
+                return const CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.redAccent),
+                );
+              },
+            )
           ],
         ),
       ),

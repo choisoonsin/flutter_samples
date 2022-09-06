@@ -1,6 +1,5 @@
 import 'package:auth_email_pass/main.dart';
 import 'package:auth_email_pass/services/auth.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class CreateAccount extends StatefulWidget {
@@ -13,17 +12,6 @@ class CreateAccount extends StatefulWidget {
 class _CreateAccountState extends State<CreateAccount> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-
-  // bool isEmailVerified = false;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-
-    // isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
-    // print('isEmailVerified: $isEmailVerified');
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +49,7 @@ class _CreateAccountState extends State<CreateAccount> {
             ),
             ElevatedButton(
               onPressed: () async {
-                final message = await AuthService().registration(
+                final message = await Authentication.registration(
                     email: _emailController.text,
                     password: _passwordController.text);
                 if (message!.contains('Success')) {
