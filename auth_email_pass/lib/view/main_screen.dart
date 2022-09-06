@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:auth_email_pass/services/api.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key, required User user})
@@ -46,6 +47,22 @@ class _MainScreenState extends State<MainScreen> {
               height: 20,
             ),
             Text(_user.email.toString()),
+            const Divider(
+              height: 40,
+            ),
+            Expanded(
+                child: Column(
+              children: [
+                Row(
+                  children: [
+                    ElevatedButton(
+                      child: Text("Send user credential"),
+                      onPressed: () => ApiService.getToken(_user),
+                    )
+                  ],
+                )
+              ],
+            ))
           ],
         )),
       ),
